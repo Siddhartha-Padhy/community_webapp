@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block content %} {% for post in posts %}
+<div class="card custom-card">
+  <div class="card-body">
+    <h5 class="card-title">@{{ post.author }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">on {{ post.date }}</h6>
+    <p class="card-text">{{ post.content }}</p>
+    <a href="#" class="card-link">
+      <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+      Like
+    </a>
+    <a href="#" class="card-link text-success">
+      <i class="fa fa-comment" aria-hidden="true"></i>
+      Comment
+    </a>
+    <a href="#" class="card-link text-danger">
+      <i class="fa fa-share" aria-hidden="true"></i>
+      Follow
+    </a>
+  </div>
+</div>
+{% endfor %} {% endblock %}
