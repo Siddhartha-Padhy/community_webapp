@@ -55,3 +55,14 @@ hr {
   right: 0;
   position: fixed;
 }
+
+.profile-head img {
+  border-radius: 50%;
+  height: 30%;
+  width: 30%;
+  margin: 1% 1%;
+}
+
+.profile-card {
+  margin: 2% 1%;
+}

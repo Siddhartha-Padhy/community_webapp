@@ -37,7 +37,7 @@
     />
 
     <!-- Personal CSS -->
-    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
 
     <title>Thoughtful</title>
   </head>
@@ -47,19 +47,23 @@
             <h3 class="text-primary">Thoughful</h2>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto ">
-                <li class="nav-item"><a class="nav-link {% if 'home' in active %}active{% endif %}"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;Home</a></li>
-                <li class="nav-item"><a class="nav-link {% if 'explore' in active %}active{% endif %}"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Explore</a></li>
+                <li class="nav-item"><a class="nav-link {% if 'home' in active %}active{% endif %}" href="{% url 'home' %}"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;Home</a></li>
+
+                <li class="nav-item"><a class="nav-link {% if 'explore' in active %}active{% endif %}" href="{% url 'explore' %}"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Explore</a></li>
+
                 <li class="nav-item"><a class="nav-link {% if 'messages' in active %}active{% endif %}"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;Messages</a></li>
-                <li class="nav-item"><a class="nav-link {% if 'profile' in active %}active{% endif %}"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;Profile</a></li>
-                <li class="nav-item"><a class="nav-link {% if 'about' in active %}active{% endif %}"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;About Us</a></li>
+
+                <li class="nav-item"><a class="nav-link {% if 'profile' in active %}active{% endif %}" href="{% url 'profile' %}"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;Profile</a></li>
+
+                <li class="nav-item"><a class="nav-link {% if 'about' in active %}active{% endif %}" href="{% url 'about' %}"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;About Us</a></li>
             </ul>
             <div class="meta-profile">
                 <hr>
-                <a href="">@{{ username }}</a>
+                <a href="{% url 'profile' %}">@{{ username }}</a>
             </div>
         </div>
       <div class="content">
-        <header class="text-primary"><b>Home</b></header>
+        <header class="text-primary text-uppercase"><b>{{ active }}</b></header>
         <div class="container">
             {% block content %} {% endblock %}
         </div>
@@ -91,5 +95,17 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      function performPost(){
+        name = document.getElementById('search_box').value
+        $.ajax({
+          type: "POST",
+          url: "{% url 'explore' %}",
+          data: {'name': 'name'}
+        })
+      }
+    </script>
   </body>
 </html>

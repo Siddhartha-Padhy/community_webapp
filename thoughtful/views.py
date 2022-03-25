@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
-def index(request):
+def home(request):
     username = 'peter_parker'
     posts = [
         {
@@ -21,3 +22,30 @@ def index(request):
     }
     
     return render(request, 'home.html', data)
+
+@csrf_exempt
+def explore(request):
+    data = {
+        'active': 'explore',
+        'username': 'peter_parker'
+    }
+    if request.method == 'POST':
+        print('request.form')
+        # return ('',204)
+        return render(request, 'explore.html', data)
+    
+    return render(request, 'explore.html', data)
+
+def profile(request):
+    data = {
+        'active': 'profile',
+        'username': 'peter_parker'
+    }
+    return render(request, 'profile.html', data)
+
+def about(request):
+    data = {
+        'active': 'about',
+        'username': 'peter_parker'
+    }
+    return render(request, 'about.html', data)
