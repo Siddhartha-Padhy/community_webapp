@@ -1,6 +1,9 @@
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
+def login(request):
+    return render(request,'login.html')
+
 def home(request):
     username = 'peter_parker'
     posts = [
@@ -27,12 +30,12 @@ def home(request):
 def explore(request):
     data = {
         'active': 'explore',
-        'username': 'peter_parker'
+        'username': 'peter_parker',
     }
     if request.method == 'POST':
         print('request.form')
         # return ('',204)
-        return render(request, 'explore.html', data)
+        # return render(request, 'explore.html', data)
     
     return render(request, 'explore.html', data)
 

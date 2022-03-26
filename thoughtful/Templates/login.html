@@ -42,43 +42,55 @@
     <title>Thoughtful</title>
   </head>
   <body>
-    <div class="d-flex">
-        <div class="sidebar text-white bg-dark">
-            <h3 class="text-primary">Thoughful</h2>
-            <hr>
-            <ul class="nav nav-pills flex-column mb-auto ">
-                <li class="nav-item"><a class="nav-link {% if 'home' in active %}active{% endif %}" href="{% url 'home' %}"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;Home</a></li>
-
-                <li class="nav-item"><a class="nav-link {% if 'explore' in active %}active{% endif %}" href="{% url 'explore' %}"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Explore</a></li>
-
-                <li class="nav-item"><a class="nav-link {% if 'messages' in active %}active{% endif %}"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;Messages</a></li>
-
-                <li class="nav-item"><a class="nav-link {% if 'profile' in active %}active{% endif %}" href="{% url 'profile' %}"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;Profile</a></li>
-
-                <li class="nav-item"><a class="nav-link {% if 'about' in active %}active{% endif %}" href="{% url 'about' %}"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;About Us</a></li>
-            </ul>
-            <div class="meta-profile">
-                <hr>
-                <a href="{% url 'profile' %}">@{{ username }}</a>
+    <div
+      class="header"
+      style="
+        background-image: linear-gradient(
+            rgba(4, 9, 30, 0.7),
+            rgba(4, 9, 30, 0.7)
+          ),
+          url('static/cover_image.jpg');
+      "
+    >
+      <div class="d-flex justify-content-between">
+        <div>
+          <h2 class="text-primary">Thoughtful</h2>
+          <div class="main-text">
+            <h1>Give your thoughts a platform</h1>
+            <p>
+              You are today where your thoughts have brought you. You will be
+              tomorrow where your thoughts take you.
+            </p>
+            <a href="#" class="card-link">Know More!</a>
+          </div>
+        </div>
+        <div class="card login-card">
+          <div class="card-body">
+            <h3 class="card-title">Login</h3>
+            <hr class="hr" />
+            <div class="custom-input-group">
+              <input
+                class="bg-dark text-white"
+                type="text"
+                placeholder="Username"
+              />
+              <input
+                class="bg-dark text-white"
+                type="password"
+                placeholder="Password"
+              />
+              <a href="#" class="card-link text-white">
+                <b>Create new user</b>
+              </a>
             </div>
-        </div>
-      <div class="content">
-        <header class="text-primary text-uppercase"><b>{{ active }}</b></header>
-        <div class="container">
-            {% block content %} {% endblock %}
-        </div>
-        </div>
-        <div class="right-hand-panel text-white bg-dark">
-            <h2>Side Section</h2>
-            <p>Out trending thinkers</p>
-            <ul>
-              <li><a href="">@Sandra</a></li>
-              <li><a href="">@Mark</a></li>
-              <li><a href="">@Justin</a></li>
-              <li><a href="">@Harry</a></li>
-            </ul>
-        </div>
+          </div>
+          <a class="btn btn-success" href="{% url 'home' %}" type="submit" style="margin: 2% 2%;">
+            Sign in
+          </button>
+        </a>
+      </div>
     </div>
+
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -95,9 +107,5 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {% block scripts %}
-    {% endblock %}
   </body>
 </html>

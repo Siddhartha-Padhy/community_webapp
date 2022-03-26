@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <h4 class="lead">Find your friends</h4>
-<form class="form-inline">
+<form class="form-inline" id="search_user_form">
   <input
     class="form-control mr-sm-2 w-75 p-3"
     type="search"
@@ -15,5 +15,20 @@
   >
     Search
   </button>
+  <p id="trial"></p>
 </form>
+{% endblock %} {% block scripts %}
+<script>
+  function performPost() {
+    name = document.getElementById('search_box').value
+    $.ajax({
+      type: 'POST',
+      url: "{% url 'explore' %}",
+      data: { name: 'name' },
+      success: function () {
+        document.getElementById('trial').innerHTML = name
+      },
+    })
+  }
+</script>
 {% endblock %}
