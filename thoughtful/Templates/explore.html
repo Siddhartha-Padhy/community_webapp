@@ -1,6 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-<h4 class="lead">Find your friends</h4>
-<form class="form-inline" id="search_user_form">
+<form class="form-inline" id="search_user_form" style="margin-top: 2%;">
   <input
     class="form-control mr-sm-2 w-75 p-3"
     type="search"
@@ -8,27 +7,41 @@
     placeholder="Search"
     aria-label="Search"
   />
-  <button
-    class="btn btn-outline-success my-2 my-sm-0"
-    type="submit"
-    onclick="performPost()"
-  >
+  <button class="btn btn-outline-success my-2 my-sm-0" id="search_user_btn">
     Search
   </button>
-  <p id="trial"></p>
+  <div class="card search-card">
+    <div class="card-body">
+      <ul class="list-group list-group-flush" id="results">
+        <li class="list-group-item">Find your friends</li>
+      </ul>
+    </div>
+  </div>
 </form>
 {% endblock %} {% block scripts %}
 <script>
-  function performPost() {
-    name = document.getElementById('search_box').value
-    $.ajax({
-      type: 'POST',
-      url: "{% url 'explore' %}",
-      data: { name: 'name' },
-      success: function () {
-        document.getElementById('trial').innerHTML = name
-      },
+  document
+    .getElementById('search_user_btn')
+    .addEventListener('click', (event) => {
+      event.preventDefault()
+      document.getElementById('results').innerHTML = ''
+      query = document.getElementById('search_box').value
+      const url = 'http://localhost:8000/search/' + query
+      console.log(url)
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data['results'])
+          data['results'].forEach((user) => {
+            document.getElementById('results').innerHTML += `
+            <li class="list-group-item">
+              <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
+              ${user.name}
+              <a href="" class="card-link">@${user.username}</a>
+            </li>
+            `
+          })
+        })
     })
-  }
 </script>
 {% endblock %}
