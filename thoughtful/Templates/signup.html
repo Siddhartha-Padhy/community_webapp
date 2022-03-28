@@ -41,59 +41,28 @@
 
     <title>Thoughtful</title>
   </head>
-  <body>
-    <div
-      class="header"
-      style="
-        background-image: linear-gradient(
-            rgba(4, 9, 30, 0.7),
-            rgba(4, 9, 30, 0.7)
-          ),
-          url('static/cover_image.jpg');
-      "
-    >
-      <div class="d-flex justify-content-between">
-        <div>
-          <h2 class="text-primary">Thoughtful</h2>
-          <div class="main-text">
-            <h1>Give your thoughts a platform</h1>
-            <p>
-              You are today where your thoughts have brought you. You will be
-              tomorrow where your thoughts take you.
-            </p>
-            <a href="#" class="card-link">Know More!</a>
+  <body style="background-color: #2980b9;">
+    <div class="card signup-card bg-dark text-white">
+      <div class="card-body">
+        <form action="{% url 'signup' %}" method="post">
+          <h3 class="card-title">Sign Up</h3>
+          <hr class="hr" />
+          <div class="custom-input-group">
+            <input type="text" placeholder="Username" required />
+            <input type="text" placeholder="Name" required />
+            <input type="password" placeholder="Password" required />
+            <p>Username should be unique.</p>
           </div>
-        </div>
-        <div class="card login-card">
-          <div class="card-body">
-            <h3 class="card-title">Login</h3>
-            <hr class="hr" />
-            <div class="custom-input-group">
-              <input
-                class="bg-dark text-white"
-                type="text"
-                placeholder="Username"
-              />
-              <input
-                class="bg-dark text-white"
-                type="password"
-                placeholder="Password"
-              />
-              <a href="{% url 'signup' %}" class="card-link text-white">
-                <b>Create new user</b>
-              </a>
-            </div>
-          </div>
-          <a
-            class="btn btn-success"
-            href="{% url 'home' %}"
-            type="submit"
-            style="margin: 2% 2%;"
-          >
-            Sign in
-          </a>
-        </div>
+        </form>
       </div>
+      <a
+        class="btn btn-success"
+        href="{% url 'home' %}"
+        type="submit"
+        style="margin: 2% 2%;"
+      >
+        Sign Up
+      </a>
     </div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %} {% for post in posts %}
-<div class="card custom-card">
+<div class="card custom-card shadow">
   <div class="card-body">
     <h5 class="card-title">@{{ post.author }}</h5>
     <h6 class="card-subtitle mb-2 text-muted">on {{ post.date }}</h6>

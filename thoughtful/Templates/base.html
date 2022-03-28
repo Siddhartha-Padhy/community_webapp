@@ -51,7 +51,7 @@
 
                 <li class="nav-item"><a class="nav-link {% if 'explore' in active %}active{% endif %}" href="{% url 'explore' %}"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Explore</a></li>
 
-                <li class="nav-item"><a class="nav-link {% if 'messages' in active %}active{% endif %}"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;Messages</a></li>
+                <li class="nav-item"><a class="nav-link {% if 'notification' in active %}active{% endif %}" href="{% url 'notification' %}"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;Notifications</a></li>
 
                 <li class="nav-item"><a class="nav-link {% if 'profile' in active %}active{% endif %}" href="{% url 'profile' %}"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;Profile</a></li>
 
@@ -69,14 +69,24 @@
         </div>
         </div>
         <div class="right-hand-panel text-white bg-dark">
-            <h2>Side Section</h2>
-            <p>Out trending thinkers</p>
-            <ul>
-              <li><a href="">@Sandra</a></li>
-              <li><a href="">@Mark</a></li>
-              <li><a href="">@Justin</a></li>
-              <li><a href="">@Harry</a></li>
-            </ul>
+            <div class="meta-card">
+              <!-- <div class="card-body"> -->
+              <div>
+                What's in your head today?
+                <a href="{% url 'compose' %}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;Compose</a>
+              </div>
+            </div>
+            <div class="meta-card">
+              <div>
+                <p>Out trending thinkers</p>
+                <ul>
+                  <li><a class="card-link" href="">@Sandra</a></li>
+                  <li><a class="card-link" href="">@Mark</a></li>
+                  <li><a class="card-link" href="">@Justin</a></li>
+                  <li><a class="card-link" href="">@Harry</a></li>
+                </ul>
+              </div>
+            </div>
         </div>
     </div>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -97,7 +107,6 @@
     ></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {% block scripts %}
-    {% endblock %}
+    <script src="{% static 'script.js' %}"></script>
   </body>
 </html>

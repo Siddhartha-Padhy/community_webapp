@@ -1,10 +1,12 @@
-from time import sleep
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
 def login(request):
     return render(request,'login.html')
+
+def signup(request):
+    return render(request,'signup.html')
 
 def home(request):
     username = 'peter_parker'
@@ -27,6 +29,13 @@ def home(request):
     }
     
     return render(request, 'home.html', data)
+
+def compose(request):
+    data = {
+        'active': 'compose',
+        'username': 'peter_parker',
+    }
+    return render(request,'compose.html',data)
 
 @csrf_exempt
 def explore(request):
@@ -59,6 +68,13 @@ def search_results(request,id):
     ]
     }
     return JsonResponse(data)
+
+def notification(request):
+    data = {
+        'active': 'notification',
+        'username': 'peter_parker'
+    }
+    return render(request, 'notification.html', data)
 
 def profile(request):
     data = {

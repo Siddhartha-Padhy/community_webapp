@@ -93,6 +93,15 @@ hr {
   background-color: #0047ab;
 }
 
+.signup-card {
+  margin: auto;
+  margin-top: 20vh;
+  width: 25vw;
+  height: 70vh;
+  top: 50%;
+  text-align: center;
+}
+
 .custom-input-group input {
   border: 2px solid black;
   border-radius: 25px;
@@ -105,4 +114,21 @@ hr {
 .search-card {
   margin: 2% 2%;
   width: 100%;
+}
+
+.meta-card {
+  background-color: #36454f;
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  text-align: center;
+  margin: 3% 0;
+  padding: 5% 5%;
+}
+
+.meta-card ul {
+  list-style-type: none;
+}
+
+.notify-card {
+  margin: 2% 1%;
 }
