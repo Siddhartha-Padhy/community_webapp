@@ -66,32 +66,42 @@
         </div>
         <div class="card login-card">
           <div class="card-body">
-            <h3 class="card-title">Login</h3>
-            <hr class="hr" />
-            <div class="custom-input-group">
-              <input
-                class="bg-dark text-white"
-                type="text"
-                placeholder="Username"
-              />
-              <input
-                class="bg-dark text-white"
-                type="password"
-                placeholder="Password"
-              />
-              <a href="{% url 'signup' %}" class="card-link text-white">
-                <b>Create new user</b>
-              </a>
-            </div>
+            <form action="{% url 'login' %}" method="post">
+              {% csrf_token %}
+              <h3 class="card-title">Login</h3>
+              <hr class="hr" />
+              {% if error %}
+              <p>
+                <strong>Error</strong>
+                : {{error}}
+              </p>
+              {% endif %}
+              <div class="custom-input-group">
+                <input
+                  class="bg-dark text-white"
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                />
+                <input
+                  class="bg-dark text-white"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                />
+                <a href="{% url 'signup' %}" class="card-link text-white">
+                  <b>Create new user</b>
+                </a>
+              </div>
+              <button
+                class="btn btn-success"
+                type="submit"
+                style="margin: 2% 2%;"
+              >
+                Sign in
+              </button>
+            </form>
           </div>
-          <a
-            class="btn btn-success"
-            href="{% url 'home' %}"
-            type="submit"
-            style="margin: 2% 2%;"
-          >
-            Sign in
-          </a>
         </div>
       </div>
     </div>

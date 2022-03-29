@@ -1,15 +1,56 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
+@csrf_exempt
 def login(request):
-    return render(request,'login.html')
+    error = None
+    if request.method == "POST":
+        username = str(request.POST.get("username"))
+        password = str(request.POST.get("password"))
+        try:
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+                return redirect(home)
+            else:
+                error = "Invalid Credentials"
+        except Exception as e:
+            print('Error: ',e)
+            error = 'Something went wrong!'
 
+    return render(request,'login.html',{'error': error})
+
+@csrf_exempt
 def signup(request):
-    return render(request,'signup.html')
+    error = None
+    if request.method == "POST":
+        userEmail = str(request.POST.get("userEmail"))
+        username = str(request.POST.get("username"))
+        password = str(request.POST.get("password"))
+        try:
+            user = User.objects.create_user(username=username,email=userEmail,password=password)
+            return redirect(home)
+        except Exception as e:
+            print('Error: '+str(e))
+            error = 'Something went wrong!'
+    
+    return render(request,'signup.html',{'error':error})
 
+def logout(request):
+    auth_logout(request)
+    return redirect(login)
+
+@login_required
 def home(request):
-    username = 'peter_parker'
+    username = ''
+    if request.user.is_authenticated:
+        username = request.user.username
     posts = [
         {
         'author': 'Sandra',
@@ -30,6 +71,7 @@ def home(request):
     
     return render(request, 'home.html', data)
 
+@login_required
 def compose(request):
     data = {
         'active': 'compose',
@@ -37,6 +79,7 @@ def compose(request):
     }
     return render(request,'compose.html',data)
 
+@login_required
 @csrf_exempt
 def explore(request):
     data = {
@@ -69,6 +112,7 @@ def search_results(request,id):
     }
     return JsonResponse(data)
 
+@login_required
 def notification(request):
     data = {
         'active': 'notification',
@@ -76,6 +120,7 @@ def notification(request):
     }
     return render(request, 'notification.html', data)
 
+@login_required
 def profile(request):
     data = {
         'active': 'profile',
@@ -83,6 +128,7 @@ def profile(request):
     }
     return render(request, 'profile.html', data)
 
+@login_required
 def about(request):
     data = {
         'active': 'about',
