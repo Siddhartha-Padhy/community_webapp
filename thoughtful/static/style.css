@@ -95,9 +95,9 @@ hr {
 
 .signup-card {
   margin: auto;
-  margin-top: 20vh;
+  margin-top: 15vh;
   width: 25vw;
-  height: 70vh;
+  min-height: 70vh;
   top: 50%;
   text-align: center;
 }

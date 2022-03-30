@@ -1,13 +1,25 @@
 {% extends 'base.html' %} {% block content %}
-<form>
+<form action="{% url 'compose' %}" method="post">
+  {% csrf_token %}
   <div class="form-group">
     <label>
       <i class="fa fa-pencil" aria-hidden="true"></i>
       &nbsp; What's in your head today?
     </label>
-    <textarea class="form-control" id="post-content" rows="7"></textarea>
+    {% if error %}
+    <p>
+      <strong>Error</strong>
+      : {{error}}
+    </p>
+    {% endif %}
+    <textarea
+      class="form-control"
+      id="post-content"
+      name="post-content"
+      rows="7"
+    ></textarea>
     <br />
-    <button class="btn btn-success">Post</button>
+    <button class="btn btn-success" type="submit">Post</button>
   </div>
 </form>
 {% endblock %}

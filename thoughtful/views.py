@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from thoughtful.database_functions import *
 from django.http import JsonResponse
 
 @csrf_exempt
@@ -31,11 +32,20 @@ def signup(request):
     error = None
     if request.method == "POST":
         userEmail = str(request.POST.get("userEmail"))
+        profileName = str(request.POST.get("profileName"))
         username = str(request.POST.get("username"))
         password = str(request.POST.get("password"))
         try:
-            user = User.objects.create_user(username=username,email=userEmail,password=password)
-            return redirect(home)
+            if validate_username(username):
+                user = User.objects.create_user(username=username,email=userEmail,password=password,first_name=profileName)
+                if user is not None:
+                    create_user_database(username)
+                    auth_login(request, user)
+                    return redirect(home)
+                else:
+                    error = "Invalid Credentials"
+            else:
+                error = 'Username Exists'
         except Exception as e:
             print('Error: '+str(e))
             error = 'Something went wrong!'
@@ -71,11 +81,21 @@ def home(request):
     
     return render(request, 'home.html', data)
 
+@csrf_exempt
 @login_required
 def compose(request):
+    error = None
+    if request.method == "POST":
+        content = str(request.POST.get('post-content'))
+        try:
+            make_post(request.user.username,content)
+        except Exception as e:
+            print('Error: ' + str(e))
+            error = 'Something went Wrong!'
     data = {
         'active': 'compose',
         'username': 'peter_parker',
+        'error': error
     }
     return render(request,'compose.html',data)
 
@@ -122,9 +142,13 @@ def notification(request):
 
 @login_required
 def profile(request):
+    if request.user.is_authenticated:
+        username = request.user.username
+        profile_name = request.user.first_name
     data = {
         'active': 'profile',
-        'username': 'peter_parker'
+        'username': username,
+        'profile_name': profile_name
     }
     return render(request, 'profile.html', data)
 
