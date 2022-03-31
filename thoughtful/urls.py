@@ -8,6 +8,7 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('compose/', views.compose, name='compose'),
     path('explore/', views.explore, name='explore'),
+    path('explore/<str:value>/', views.explore_profile, name='explore_profile'),
     path('search/<str:value>/', views.search_results, name='searchresults'),
     path('notification/', views.notification, name='notification'),
     path('profile/', views.profile, name='profile'),

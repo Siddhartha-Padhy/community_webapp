@@ -102,9 +102,11 @@ def compose(request):
 @login_required
 @csrf_exempt
 def explore(request):
+    if request.user.is_authenticated:
+        username = request.user.username
     data = {
         'active': 'explore',
-        'username': 'peter_parker',
+        'username': username,
     }
     
     return render(request, 'explore.html', data)
@@ -125,6 +127,23 @@ def search_results(request,value):
     return JsonResponse(data)
 
 @login_required
+def explore_profile(request,value):
+    if request.user.is_authenticated:
+        username = request.user.username
+
+    user = User.objects.get(username=value)
+    profile_name = user.first_name
+    posts = get_personal_posts(value)
+    data = {
+        'active': 'profile',
+        'username': username,
+        'profile_username': user.username,
+        'profile_name': profile_name,
+        'posts': posts
+    }
+    return render(request, 'profile.html', data)
+
+@login_required
 def notification(request):
     data = {
         'active': 'notification',
@@ -138,9 +157,11 @@ def profile(request):
         username = request.user.username
         profile_name = request.user.first_name
     posts = get_personal_posts(username)
+    print(posts)
     data = {
         'active': 'profile',
         'username': username,
+        'profile_username': username,
         'profile_name': profile_name,
         'posts': posts
     }

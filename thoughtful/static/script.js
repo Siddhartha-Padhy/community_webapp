@@ -15,7 +15,7 @@ document
             <li class="list-group-item">
               <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
               ${user.profileName}
-              <a href="" class="card-link">@${user.username}</a>
+              <a href="http://localhost:8000/explore/${user.username}" class="card-link">@${user.username}</a>
             </li>
             `
         })
