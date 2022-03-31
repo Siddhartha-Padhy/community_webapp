@@ -17,13 +17,15 @@
 <div class="card bg-dark">
   <div class="card-body">
     <h5 class="card-title text-primary">Posts</h5>
+    {% for post in posts %}
     <div class="card custom-card">
       <div class="card-body">
-        <h5 class="card-title">@peter_parker</h5>
-        <h6 class="card-subtitle mb-2 text-muted">on 25-03-2022</h6>
+        <h5 class="card-title">@{{ username }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">
+          on {{ post.Time}} {{ post.Date}}
+        </h6>
         <p class="card-text">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam omnis
-          mollitia sit deleniti sequi natus.
+          {{ post.Content }}
         </p>
         <a href="#" class="card-link">
           <i class="fa fa-thumbs-up" aria-hidden="true"></i>
@@ -39,6 +41,7 @@
         </a>
       </div>
     </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}

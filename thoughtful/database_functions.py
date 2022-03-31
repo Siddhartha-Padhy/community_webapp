@@ -30,9 +30,11 @@ def validate_username(username):
 def make_post(username,content):
     if content =="":
         return
-    time = datetime.datetime.now().strftime('%d-%b-%Y  %I-%M %p')
+    date = datetime.datetime.now().strftime('%d %b %Y')
+    time = datetime.datetime.now().strftime('%I:%M %p')
     data = {
         'Content': content,
+        'Date': date,
         'Time': time
     }
     curr_user = db.child('Community').child('Users').order_by_child('Username').equal_to(username).get()
@@ -40,3 +42,26 @@ def make_post(username,content):
     for user in curr_user.each():
         if user.val()['Username'] == username:
             db.child('Community').child('Users').child(user.key()).child('Posts').push(data)
+
+def get_personal_posts(username):
+    curr_user = db.child('Community').child('Users').order_by_child('Username').equal_to(username).get()
+
+    results = []
+    for user in curr_user.each():
+        if user.val()['Username'] == username:
+            posts = db.child('Community').child('Users').child(user.key()).child('Posts').get()
+    
+    try:
+        for post in posts.each():
+            result = {}
+            result['Content'] = post.val()['Content']
+            result['Time'] = post.val()['Time']
+            if post.val()['Date'] == str(datetime.datetime.now().strftime('%d %b %Y')):
+                result['Date'] = 'Today'
+            else:
+                result['Date'] = post.val()['Date']
+            results.append(result)
+    except:
+        pass
+
+    return results

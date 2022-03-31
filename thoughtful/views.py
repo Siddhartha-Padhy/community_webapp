@@ -106,29 +106,21 @@ def explore(request):
         'active': 'explore',
         'username': 'peter_parker',
     }
-    if request.method == 'POST':
-        print('request.form')
-        # return ('',204)
-        # return render(request, 'explore.html', data)
     
     return render(request, 'explore.html', data)
 
-def search_results(request,id):
+def search_results(request,value):
+    value = ' '.join(value.split())
+    users = User.objects.filter(first_name__contains=value)
+    results = []
+    for user in users.iterator():
+        result = {}
+        result['username'] = str(user.username)
+        result['profileName'] = str(user.first_name)
+        results.append(result)
+
     data = {
-        'results': [
-        {
-            'username': 'james_18',
-            'name': 'James Clear'
-        },
-        {
-            'username': 'nick_davidson',
-            'name': 'Nick Davidson'
-        },
-        {
-            'username': 'john_parkinson',
-            'name': 'John Parkinson'
-        }
-    ]
+        'results': results
     }
     return JsonResponse(data)
 
@@ -145,10 +137,12 @@ def profile(request):
     if request.user.is_authenticated:
         username = request.user.username
         profile_name = request.user.first_name
+    posts = get_personal_posts(username)
     data = {
         'active': 'profile',
         'username': username,
-        'profile_name': profile_name
+        'profile_name': profile_name,
+        'posts': posts
     }
     return render(request, 'profile.html', data)
 

@@ -14,7 +14,7 @@ document
           document.getElementById('results').innerHTML += `
             <li class="list-group-item">
               <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
-              ${user.name}
+              ${user.profileName}
               <a href="" class="card-link">@${user.username}</a>
             </li>
             `
