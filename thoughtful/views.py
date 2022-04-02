@@ -171,6 +171,15 @@ def profile(request):
     return render(request, 'profile.html', data)
 
 @login_required
+def follow_profile(request,value):
+    print(value)
+    follow_user(request.user.username,value)
+    data = {
+        'results': 'success'
+    }
+    return JsonResponse(data)
+
+@login_required
 @csrf_exempt
 def edit_profile(request):
     error = None

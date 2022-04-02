@@ -5,13 +5,21 @@
       <img src="{% static 'img_avatar.png' %}" alt="Profile Image" />
       <div style="text-align: center;">
         <h2>{{ profile_name }}</h2>
-        <p class="text-muted">@{{ profile_username }}</p>
+        <p class="text-muted">
+          @
+          <span id="profile-username">{{ profile_username }}</span>
+        </p>
         <p>
           {{ status }}
         </p>
       </div>
     </div>
   </div>
+  {% if profile_username != user.get_username %}
+  <button id="follow-user" class="btn btn-primary" onclick="followUser()">
+    Follow
+  </button>
+  {% endif %}
 </div>
 <div class="card bg-dark">
   <div class="card-body">

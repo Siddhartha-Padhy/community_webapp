@@ -21,3 +21,10 @@ document
         })
       })
   })
+
+function followUser() {
+  query = document.getElementById('profile-username').textContent
+  const url = 'http://localhost:8000/follow/' + query
+  fetch(url)
+  document.getElementById('follow-user').style.textContent = 'Following'
+}

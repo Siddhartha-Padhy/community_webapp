@@ -80,3 +80,10 @@ def get_personal_status(username):
         if user.val()['Username'] == username:
             status_list = db.child('Community').child('Users').child(user.key()).get()
             return status_list.val()['Status']
+
+def follow_user(username,follow_username):
+    curr_user = db.child('Community').child('Users').order_by_child('Username').equal_to(username).get()
+
+    for user in curr_user.each():
+        if user.val()['Username'] == username:
+            db.child('Community').child('Users').child(user.key()).child('Following').push({ 'Username': follow_username })
