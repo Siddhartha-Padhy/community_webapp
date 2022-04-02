@@ -65,3 +65,18 @@ def get_personal_posts(username):
         pass
 
     return results
+
+def set_status(username,status):
+    curr_user = db.child('Community').child('Users').order_by_child('Username').equal_to(username).get()
+
+    for user in curr_user.each():
+        if user.val()['Username'] == username:
+            status = db.child('Community').child('Users').child(user.key()).update({'Status':status})
+
+def get_personal_status(username):
+    curr_user = db.child('Community').child('Users').order_by_child('Username').equal_to(username).get()
+
+    for user in curr_user.each():
+        if user.val()['Username'] == username:
+            status_list = db.child('Community').child('Users').child(user.key()).get()
+            return status_list.val()['Status']

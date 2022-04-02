@@ -117,8 +117,8 @@ def search_results(request,value):
     results = []
     for user in users.iterator():
         result = {}
-        result['username'] = str(user.username)
-        result['profileName'] = str(user.first_name)
+        result['username'] = str(user.get_username())
+        result['profileName'] = str(user.get_short_name())
         results.append(result)
 
     data = {
@@ -132,13 +132,15 @@ def explore_profile(request,value):
         username = request.user.username
 
     user = User.objects.get(username=value)
-    profile_name = user.first_name
+    profile_name = user.get_short_name()
+    status = get_personal_status(user.get_username())
     posts = get_personal_posts(value)
     data = {
-        'active': 'profile',
+        'active': 'explore',
         'username': username,
-        'profile_username': user.username,
+        'profile_username': user.get_username(),
         'profile_name': profile_name,
+        'status': status,
         'posts': posts
     }
     return render(request, 'profile.html', data)
@@ -156,21 +158,49 @@ def profile(request):
     if request.user.is_authenticated:
         username = request.user.username
         profile_name = request.user.first_name
+    status = get_personal_status(username)
     posts = get_personal_posts(username)
-    print(posts)
     data = {
         'active': 'profile',
         'username': username,
         'profile_username': username,
         'profile_name': profile_name,
+        'status': status,
         'posts': posts
     }
     return render(request, 'profile.html', data)
 
 @login_required
+@csrf_exempt
+def edit_profile(request):
+    error = None
+    username = request.user.username
+    if request.method == "POST":
+        profileName = str(request.POST.get('profileName'))
+        email = str(request.POST.get('email'))
+        status = str(request.POST.get('status'))
+        try:
+            user = User.objects.get(username = username)
+            user.first_name = profileName
+            user.email = email
+            user.save()
+            set_status(username,status)
+        except Exception as e:
+            print('Error: ' + str(e))
+            error = 'Something went Wrong!'
+    data = {
+        'active': 'profile',
+        'username': username,
+        'error': error
+    }
+    return render(request, 'edit_profile.html', data)
+
+@login_required
 def about(request):
+    if request.user.is_authenticated:
+        username = request.user.username
     data = {
         'active': 'about',
-        'username': 'peter_parker'
+        'username': username
     }
     return render(request, 'about.html', data)

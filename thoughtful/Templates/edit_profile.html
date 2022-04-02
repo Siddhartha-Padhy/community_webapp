@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<form class="form-inline" style="margin-top: 2%;" method="post">
+  {% csrf_token %} {% if error %}
+  <p>
+    <strong>Error</strong>
+    : {{error}}
+  </p>
+  {% endif %}
+  <input
+    class="form-control mr-sm-2 w-75 p-3"
+    type="text"
+    name="profileName"
+    placeholder="Name"
+  />
+  <input
+    class="form-control mr-sm-2 w-75 p-3"
+    type="email"
+    name="email"
+    placeholder="Email"
+    style="margin-top: 2%;"
+  />
+  <textarea
+    class="form-control"
+    name="status"
+    placeholder="Add a status like New to Thoughtful!"
+    rows="3"
+    style="width: 90%; margin-top: 2%;"
+  ></textarea>
+  <button class="btn btn-outline-success" type="submit" style="margin-top: 2%;">
+    Submit
+  </button>
+</form>
+{% endblock %}
