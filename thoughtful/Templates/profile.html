@@ -21,34 +21,89 @@
   </button>
   {% endif %}
 </div>
-<div class="card bg-dark">
-  <div class="card-body">
-    <h5 class="card-title text-primary">Posts</h5>
-    {% for post in posts %}
-    <div class="card custom-card">
+<div id="accordion">
+  <div class="card bg-dark">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button
+          class="btn btn-link"
+          data-toggle="collapse"
+          data-target="#following"
+          aria-expanded="true"
+          aria-controls="collapseOne"
+          style="text-decoration: none;"
+        >
+          <b>Following</b>
+        </button>
+      </h5>
+    </div>
+
+    <div
+      id="following"
+      class="collapse show"
+      aria-labelledby="headingOne"
+      data-parent="#accordion"
+    >
       <div class="card-body">
-        <h5 class="card-title">@{{ profile_username }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">
-          on {{ post.Time}} {{ post.Date}}
-        </h6>
-        <p class="card-text">
-          {{ post.Content|linebreaks }}
-        </p>
-        <a href="#" class="card-link">
-          <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-          Like
-        </a>
-        <a href="#" class="card-link text-success">
-          <i class="fa fa-comment" aria-hidden="true"></i>
-          Comment
-        </a>
-        <a href="#" class="card-link text-danger">
-          <i class="fa fa-share" aria-hidden="true"></i>
-          Follow
-        </a>
+        {% for follow in following %}
+        <div class="card custom-card">
+          <div class="card-body">
+            <h5 class="card-text">@{{ follow }}</h5>
+          </div>
+        </div>
+        {% endfor %}
       </div>
     </div>
-    {% endfor %}
+  </div>
+  <div class="card bg-dark">
+    <div class="card-header" id="headingTwo">
+      <h5 class="mb-0">
+        <button
+          class="btn btn-link collapsed"
+          data-toggle="collapse"
+          data-target="#posts"
+          aria-expanded="false"
+          aria-controls="collapseTwo"
+          style="text-decoration: none;"
+        >
+          <b>Posts</b>
+        </button>
+      </h5>
+    </div>
+    <div
+      id="posts"
+      class="collapse"
+      aria-labelledby="headingTwo"
+      data-parent="#accordion"
+    >
+      <div class="card-body">
+        {% for post in posts %}
+        <div class="card custom-card">
+          <div class="card-body">
+            <h5 class="card-title">@{{ profile_username }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">
+              on {{ post.Time}} {{ post.Date}}
+            </h6>
+            <p class="card-text">
+              {{ post.Content|linebreaks }}
+            </p>
+            <a href="#" class="card-link">
+              <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+              Like
+            </a>
+            <a href="#" class="card-link text-success">
+              <i class="fa fa-comment" aria-hidden="true"></i>
+              Comment
+            </a>
+            <a href="#" class="card-link text-danger">
+              <i class="fa fa-share" aria-hidden="true"></i>
+              Follow
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

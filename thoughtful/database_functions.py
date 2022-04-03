@@ -2,6 +2,7 @@ import json
 import pyrebase
 import datetime
 
+# Get the firebase configurations
 def firebaseConfigRead():
     with open("fireConfig.json", 'r') as f:
         return json.load(f)
@@ -14,12 +15,14 @@ firebaseConfig = firebaseConfigRead()
 firebase = pyrebase.initialize_app(firebaseConfig)
 db = firebase.database()
 
+# Initialize user's portfolio with it's username
 def create_user_database(username):
     data = {
         'Username': username
     }
     db.child('Community').child('Users').push(data)
 
+# Check whether the username exists or not
 def validate_username(username):
     copies = db.child('Community').child('Users').order_by_child('Username').equal_to(username).get()
     for copy in copies.each():
@@ -27,6 +30,7 @@ def validate_username(username):
             return False
     return True
 
+# Add a post to user's database having Content, Date and Time attributes
 def make_post(username,content):
     if content =="":
         return
@@ -43,7 +47,8 @@ def make_post(username,content):
         if user.val()['Username'] == username:
             db.child('Community').child('Users').child(user.key()).child('Posts').push(data)
 
-def get_personal_posts(username):
+# Get a post from user's database. Attributes: Content, Date and Time
+def get_posts(username):
     curr_user = db.child('Community').child('Users').order_by_child('Username').equal_to(username).get()
 
     results = []
@@ -66,6 +71,7 @@ def get_personal_posts(username):
 
     return results
 
+# Set the status of a user
 def set_status(username,status):
     curr_user = db.child('Community').child('Users').order_by_child('Username').equal_to(username).get()
 
@@ -73,17 +79,38 @@ def set_status(username,status):
         if user.val()['Username'] == username:
             status = db.child('Community').child('Users').child(user.key()).update({'Status':status})
 
-def get_personal_status(username):
+# Get the status of a user
+def get_status(username):
     curr_user = db.child('Community').child('Users').order_by_child('Username').equal_to(username).get()
 
     for user in curr_user.each():
         if user.val()['Username'] == username:
             status_list = db.child('Community').child('Users').child(user.key()).get()
-            return status_list.val()['Status']
+            try:
+                return status_list.val()['Status']
+            except:
+                return 'Hello there!'
 
+# Add a user to logged in user's database
 def follow_user(username,follow_username):
     curr_user = db.child('Community').child('Users').order_by_child('Username').equal_to(username).get()
 
     for user in curr_user.each():
         if user.val()['Username'] == username:
             db.child('Community').child('Users').child(user.key()).child('Following').push({ 'Username': follow_username })
+
+# Get the users followed by the logged in user
+def get_following(username):
+    curr_user = db.child('Community').child('Users').order_by_child('Username').equal_to(username).get()
+
+    for user in curr_user.each():
+        if user.val()['Username'] == username:
+                followings = db.child('Community').child('Users').child(user.key()).child('Following').get()
+
+    result = []
+    try:
+        for following in followings.each():
+            result.append(following.val()['Username'])
+    except:
+        pass
+    return result

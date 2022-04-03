@@ -56,6 +56,7 @@ def logout(request):
     auth_logout(request)
     return redirect(login)
 
+# Home page for logged in user
 @login_required
 def home(request):
     username = ''
@@ -81,6 +82,7 @@ def home(request):
     
     return render(request, 'home.html', data)
 
+# Page for composing posts
 @csrf_exempt
 @login_required
 def compose(request):
@@ -99,6 +101,7 @@ def compose(request):
     }
     return render(request,'compose.html',data)
 
+# Explore users
 @login_required
 @csrf_exempt
 def explore(request):
@@ -111,6 +114,8 @@ def explore(request):
     
     return render(request, 'explore.html', data)
 
+# Sends JSON respose for found users with queried first_name
+# Loads in Explore page without page reload
 def search_results(request,value):
     value = ' '.join(value.split())
     users = User.objects.filter(first_name__contains=value)
@@ -126,6 +131,7 @@ def search_results(request,value):
     }
     return JsonResponse(data)
 
+# Profile page for other users using the profile template
 @login_required
 def explore_profile(request,value):
     if request.user.is_authenticated:
@@ -133,18 +139,21 @@ def explore_profile(request,value):
 
     user = User.objects.get(username=value)
     profile_name = user.get_short_name()
-    status = get_personal_status(user.get_username())
-    posts = get_personal_posts(value)
+    status = get_status(user.get_username())
+    posts = get_posts(value)
+    following = get_following(user.get_username())
     data = {
         'active': 'explore',
         'username': username,
         'profile_username': user.get_username(),
         'profile_name': profile_name,
         'status': status,
+        'following': following,
         'posts': posts
     }
     return render(request, 'profile.html', data)
 
+# Notification page
 @login_required
 def notification(request):
     data = {
@@ -153,23 +162,27 @@ def notification(request):
     }
     return render(request, 'notification.html', data)
 
+# Profile page for logged in user
 @login_required
 def profile(request):
     if request.user.is_authenticated:
         username = request.user.username
         profile_name = request.user.first_name
-    status = get_personal_status(username)
-    posts = get_personal_posts(username)
+    status = get_status(username)
+    posts = get_posts(username)
+    following = get_following(username)
     data = {
         'active': 'profile',
         'username': username,
         'profile_username': username,
         'profile_name': profile_name,
         'status': status,
+        'following': following,
         'posts': posts
     }
     return render(request, 'profile.html', data)
 
+# Adds a user to logged in user's following list
 @login_required
 def follow_profile(request,value):
     print(value)
@@ -179,6 +192,7 @@ def follow_profile(request,value):
     }
     return JsonResponse(data)
 
+# Form page to update logged in user's data
 @login_required
 @csrf_exempt
 def edit_profile(request):
@@ -204,6 +218,7 @@ def edit_profile(request):
     }
     return render(request, 'edit_profile.html', data)
 
+# About page
 @login_required
 def about(request):
     if request.user.is_authenticated:
