@@ -1,9 +1,18 @@
 {% extends 'base.html' %} {% block content %} {% for post in posts %}
 <div class="card custom-card shadow">
   <div class="card-body">
-    <h5 class="card-title">@{{ post.author }}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">on {{ post.date }}</h6>
-    <p class="card-text">{{ post.content }}</p>
+    <h5 class="card-title">
+      <a
+        href="http://localhost:8000/explore/{{ post.Author }}"
+        style="text-decoration: none;"
+      >
+        @{{ post.Author }}
+      </a>
+    </h5>
+    <h6 class="card-subtitle mb-2 text-muted">
+      on {{ post.Date }} at {{ post.Time }}
+    </h6>
+    <p class="card-text">{{ post.Content|linebreaks }}</p>
     <a href="#" class="card-link">
       <i class="fa fa-thumbs-up" aria-hidden="true"></i>
       Like
@@ -18,4 +27,6 @@
     </a>
   </div>
 </div>
+{% empty %}
+<h3>Nothing to show. Follow others to see there posts here.</h3>
 {% endfor %} {% endblock %}

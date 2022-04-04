@@ -62,18 +62,8 @@ def home(request):
     username = ''
     if request.user.is_authenticated:
         username = request.user.username
-    posts = [
-        {
-        'author': 'Sandra',
-        'date': '24/03/2022',
-        'content': 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt, a? Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, vel?'
-        },
-        {
-            'author': 'MaxAllen',
-            'date': '23/03/2022',
-            'content': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque omnis adipisci quisquam eligendi neque harum minus iure ipsam deleniti rerum?'
-        }
-    ]
+
+    posts = get_posts_by_followings(username)
     data = {
         'active': 'home',
         'username': username,

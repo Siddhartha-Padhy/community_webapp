@@ -114,3 +114,20 @@ def get_following(username):
     except:
         pass
     return result
+
+def get_posts_by_followings(username):
+    followings = get_following(username)
+    result = []
+    for following in followings:
+        print(following)
+        posts = get_posts(following)
+        for post in posts:
+            if post['Date'] == 'Today':
+                post['Author'] = following
+                result.append(post)
+        for post in posts:
+            post['Author'] = following
+            result.append(post)
+    print(result)
+    result = sorted(result, key = lambda i: (i['Date'], i['Time']))
+    return result
