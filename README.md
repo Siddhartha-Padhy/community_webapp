@@ -26,9 +26,13 @@ Password (again): /*Your Password*/
 Superuser created successfully.
 ```
 
+## 🛠 Proposed Improvements
+- Use React JS for frontend which uses django api as backend.
+
 ## 📚 Resources
 - [Firebase Realtime Database Documentation](https://firebase.google.com/docs/database)
 - [Pyrebase Repository](https://github.com/thisbejim/Pyrebase)
 - [Django Documentation](https://docs.djangoproject.com/en/4.0/contents/)
 
-<img src="https://i0.wp.com/copyassignment.com/wp-content/uploads/2021/08/Django-logo.jpg?fit=474%2C474&ssl=1" width=10%>&nbsp;<img src="https://firebase.google.com/images/brand-guidelines/logo-built_white.png" width=20%>
+![](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
+&nbsp;![](https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black)
